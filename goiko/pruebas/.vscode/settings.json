@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"readline.h": "c",
+		"errno.h": "c",
+		"termcap.h": "c",
+		"stdio.h": "c"
+	}
+}
