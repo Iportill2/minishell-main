@@ -6,7 +6,7 @@
 /*   By: iportill <iportill@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 10:52:05 by jgoikoet          #+#    #+#             */
-/*   Updated: 2023/10/20 13:42:53 by iportill         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:21:14 by iportill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 extern t_data	*g_data;
 
-int	ft_quote_error(char *s)
+int	ft_quote_error(char *s)//OK
 {
+	
 	char c;
 	int i;
 
@@ -35,16 +36,55 @@ int	ft_quote_error(char *s)
 	if(c == 'X')
 		return (0);
 	else
+	{
+		ft_error_iker(1);
 		return (1);
+	}
+}	
+int	ft_dual_pipe_error(char *s)//arreglar
+{
+	char c;
+	int i;
+
+	i = 0;
+	c ='X';
+	while(s[i])
+	{
+		if(s[i] == '\'' || s[i] == '"')
+		{
+			if(c=='X')
+				c = s[i];
+			else if(c == s[i])
+				c = 'X';
+		}
+		else if(s[i]=='|' && c != 'X')		
+		{
+			if(s[i + 1] == '|')
+				return (ft_error_iker(8), 1);//OR
+			else if(s[i] && s[++i] == ' ')
+			{
+				while (s[i] && s[i] == ' ')
+					i++;
+				if(s[i] && s[i] == '|')
+				{
+					printf("fallo en el token\n");
+					return (ft_error_iker(2), 1);//error de token
+				}
+				
+			}	//return (ft_error_iker(2), 1);
+		}
+		i++;
+	}
+	return (0);
 }	
 
 void ft_error_iker(int n)
 {
 	g_data->error = n;
 	if (g_data->error == 1)
-		printf(R"ERROR comillas dobles impares\n"W);
+		printf(R"ERROR comillas sin cerrar \n"W);
 	if (g_data->error == 2)
-		printf(R"ERROR comillas simples impares\n"W);
+		printf(R"corrigiendo al funcion int	ft_dual_pipe_error(char *s)\n"W);
 	if (g_data->error == 3)
 		printf(R" >>FUNCION GET_PATH<< La variable de entorno 'PATH' no está definida.\n"W);
 	if (g_data->error == 4)
@@ -130,8 +170,8 @@ int	ft_error(void)
 {
 	if (ft_redir_pipe_error())
 		return (1);
-	/* if (ft_quote_error())
-		return (1); */
+	if (ft_quote_error(g_data->input))
+		return (1);
 	//ft_error_iker(n);
 	return(0);
 }

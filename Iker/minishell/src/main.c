@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgoikoet <jgoikoet@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: iportill <iportill@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 10:31:57 by jgoikoet          #+#    #+#             */
-/*   Updated: 2023/10/20 11:05:41 by jgoikoet         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:25:58 by iportill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		main(int argc, char **argv,char **env)
 		add_history(g_data->input);
 		g_data->array_input = ft_split_quote(g_data->input, ' ');
 		//g_data->array_input_clear = ft_ar_input_clear();
-		ft_print_toito();
+		//ft_print_toito();
 		if(ft_error() == 0)
 		{
 			input_check();

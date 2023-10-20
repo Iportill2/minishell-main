@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jgoikoet <jgoikoet@student.42urduliz.co    +#+  +:+       +#+         #
+#    By: iportill <iportill@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 12:17:20 by iportill          #+#    #+#              #
-#    Updated: 2023/10/20 11:34:42 by jgoikoet         ###   ########.fr        #
+#    Updated: 2023/10/20 17:26:15 by iportill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
