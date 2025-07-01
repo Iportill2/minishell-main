@@ -14,6 +14,9 @@
 
 #include <termios.h>
 
+// Definición de la variable global g_result
+int g_result = 0;
+
 void	ft_set_home(t_data *d)
 {
 	int	i;

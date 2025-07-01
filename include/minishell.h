@@ -25,7 +25,7 @@
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 
-int		g_result;
+extern int g_result;
 
 typedef struct s_data
 {

@@ -10,107 +10,72 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
-RM = rm -f
+NAME            = minishell
+CC              = gcc
+RM              = rm -rf
+FLAGS           = -Wall -Wextra -Werror -ILibft -g3 #-fsanitize=address
 LREADLINE_FLAGS = -lreadline -L/Users/$(USER)/.brew/opt/readline/lib
-READLINE = -I /Users/$(USER)/.brew/opt/readline/include
-LIB = libft.a
-GNL = gnl.a
-BONUS = minishell_bonus
-SRC_DIR = src/
-SRC =	$(SRC_DIR)main.c \
-		$(SRC_DIR)ft_command_select.c \
-		$(SRC_DIR)ft_error.c \
-		$(SRC_DIR)ft_error_ext.c \
-		$(SRC_DIR)ft_parsing.c \
-		$(SRC_DIR)ft_split_quote.c \
-		$(SRC_DIR)ft_split_quote_clear.c \
-		$(SRC_DIR)ft_pipe.c \
-		$(SRC_DIR)ft_echo.c \
-		$(SRC_DIR)ft_getcwd.c \
-		$(SRC_DIR)ft_cd.c \
-		$(SRC_DIR)ft_export.c \
-		$(SRC_DIR)ft_free.c \
-		$(SRC_DIR)ft_unset.c \
-		$(SRC_DIR)ft_set_env.c \
-		$(SRC_DIR)ft_redir.c \
-		$(SRC_DIR)ft_signal.c \
-		$(SRC_DIR)ft_pilot.c \
-		$(SRC_DIR)ft_parsing_utils.c \
-		$(SRC_DIR)ft_split_quote_utils.c \
-		$(SRC_DIR)ft_split_quote_clear_utils.c \
-		$(SRC_DIR)ft_cd_utils.c \
-		$(SRC_DIR)ft_export_utils.c
+READLINE        = -I /Users/$(USER)/.brew/opt/readline/include
 
+# FILES AND PATH
+HEADER_SRCS = minishell.h
+HEADER_DIR  = includes/
+HEADER      = $(addprefix $(HEADER_DIR), $(HEADER_SRCS))
 
-OBJ = $(SRC:.c=.o)
+MPATH_SRCS  = \
+	main.c \
+	ft_command_select.c \
+	ft_error.c \
+	ft_error_ext.c \
+	ft_parsing.c \
+	ft_split_quote.c \
+	ft_split_quote_clear.c \
+	ft_pipe.c \
+	ft_echo.c \
+	ft_getcwd.c \
+	ft_cd.c \
+	ft_export.c \
+	ft_free.c \
+	ft_unset.c \
+	ft_set_env.c \
+	ft_redir.c \
+	ft_signal.c \
+	ft_pilot.c \
+	ft_parsing_utils.c \
+	ft_split_quote_utils.c \
+	ft_split_quote_clear_utils.c \
+	ft_cd_utils.c \
+	ft_export_utils.c
 
-# ASCII COLORS #
-BLACK=\033[0;30m
-RED=\033[0;31m
-GREEN=\033[0;32m
-YELLOW=\033[0;33m
-BLUE=\033[0;34m
-MAG=\033[0;35m
-CYAN=\033[0;36m
-WHITE=\033[0;37m
-PAPYRUS=\033[38;5;223m
-END=\033[0m
+MPATH_DIR   = src/
+MPATH       = $(addprefix $(MPATH_DIR), $(MPATH_SRCS))
+OBJ_M       = $(MPATH:.c=.o)
 
-define MINISHELL
-$(GREEN)
- +-+-+-+-+-+-+-+-+-+
- |M|I|N|I|T|X|E|L|L|
- +-+-+-+-+-+-+-+-+-+                                                         
-$(END)
-endef
-export MINISHELL
+# COMMANDS
+all: lib $(NAME)
 
-#.SILENT:             #<--------------SILENCED COMPILATION
-all: $(NAME) $(LIB) $(GNL)
+$(NAME): $(OBJ_M)
+	$(CC) $(FLAGS) $(OBJ_M) libft.a gnl.a $(LREADLINE_FLAGS) -o $(NAME)
 
-$(NAME): $(OBJ) $(GNL) $(LIB)
-	$(CC) $(CFLAGS) $(LIB) $(GNL) $(LREADLINE_FLAGS) -o $(NAME) $(OBJ)
-	echo "$$MINISHELL"
-
-$(LIB):
-	make -C Libft
-	cp Libft/$(LIB) $(LIB)
-
-$(GNL):
-	make -C gnl
-	cp gnl/$(GNL) $(GNL)
-
-bonus:
-	make -C bonus
-	cp bonus/$(BONUS) $(BONUS)
-
-%.o: %.c
-	$(CC) $(READLINE) -c $(CFLAGS) $^ -o $@
+%.o: %.c $(HEADER) Makefile
+	$(CC) $(FLAGS) $(READLINE) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ)
-	make -C gnl clean
-	make -C Libft clean
-	make -C bonus clean
+	$(RM) $(OBJ_M)
+	$(MAKE) -C Libft clean
+	$(MAKE) -C gnl clean
 
 fclean: clean
 	$(RM) $(NAME)
-	$(RM) $(GNL)
-	$(RM) $(LIB)
-	$(RM) $(BONUS)
-	make -C gnl fclean
-	make -C Libft fclean
-	make -C bonus fclean
-
-#lib:
-#	make -C Libft
-#	cp Libft/$(LIB) $(LIB)
-#	make -C gnl
-#	cp gnl/$(GNL) $(GNL)
+	$(RM) libft.a
+	$(RM) gnl.a
 
 re: fclean all
 
-.PHONY: all clean fclean re lib bonus
+lib:
+	$(MAKE) -C Libft
+	cp Libft/libft.a .
+	$(MAKE) -C gnl
+	cp gnl/gnl.a .
+
+.PHONY: all clean fclean re lib
